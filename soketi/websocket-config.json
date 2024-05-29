@@ -1,0 +1,12 @@
+{
+  "debug": true,
+  "port": 6001,
+  "appManager.array.apps": [
+    {
+      "id": "project",
+      "key": "project-01",
+      "secret": "87ed32dc-e83d-4d86-b691-be5998fb2dd2",
+      "enable": true
+    }
+  ]
+}

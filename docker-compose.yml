@@ -1,0 +1,98 @@
+version: '3.7'
+services:
+
+    backend:
+        build:
+            context: ./php
+        command: ["/usr/post-build.sh"]
+        volumes:
+            - ./backend:/var/www/html/backend
+        environment:
+            - CONTAINER_ROLE=app
+            - PHP_IDE_CONFIG=serverName=backend
+            - COMPOSER_MEMORY_LIMIT=-1
+            - XDEBUG_CONFIG=client_port=9201
+            - DB_HOST=db
+            - REDIS_HOST=redis
+            - RABBITMQ_HOST=rabbitmq
+        depends_on:
+            - redis-server
+        networks:
+            - pr-net
+        extra_hosts:
+            host.docker.internal: host-gateway
+
+    frontend:
+        build:
+            context: ./node
+        volumes:
+            - ./frontend:/usr/app
+        command: ["/usr/post-build.sh"]
+        networks:
+            - pr-net
+        extra_hosts:
+            app.project: 127.0.0.1
+            backend.project: host-gateway
+
+    rabbitmq:
+        image: rabbitmq:3-management
+        container_name: rabbitmq_server
+        ports:
+            - "15672:15672"
+            - "5672:5672"
+        networks:
+            - pr-net
+
+    redis-server:
+        image: redis:latest
+        networks:
+            - pr-net
+        restart: always
+
+    nginx:
+        build:
+            context: ./nginx
+        volumes:
+            - ./backend:/var/www/html/backend
+            - ./frontend:/usr/app/public
+        ports:
+            - "80:80"
+        depends_on:
+            - backend
+            - frontend
+        networks:
+            - pr-net
+
+    db:
+        image: mysql:8.0
+        container_name: mysql_db
+        restart: unless-stopped
+        environment:
+            - MYSQL_DATABASE=project_db
+            - MYSQL_USER=project
+            - MYSQL_PASSWORD=project
+            - MYSQL_ROOT_PASSWORD=project
+        volumes:
+            - dbdata:/var/lib/mysql
+        networks:
+            - pr-net
+
+    soketi:
+        build:
+            context: ./soketi
+        command: ["--config=/etc/soketi/config/websocket-config.json"]
+        ports:
+            - "6001:6001"
+            - "9601:9601"
+        networks:
+            - pr-net
+        restart: always
+
+networks:
+    pr-net:
+        name: pr-net
+        driver: bridge
+        driver_opts:
+            com.docker.network.bridge.name: br-pr-net
+volumes:
+    dbdata:
