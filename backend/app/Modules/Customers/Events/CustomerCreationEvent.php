@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Modules\Users\Events;
+namespace App\Modules\Customers\Events;
 
-use App\Modules\Users\Models\User;
+use App\Modules\Customers\Models\Customer;
 use App\Services\RabbitMQService;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserCreationEvent
+class CustomerCreationEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -17,9 +17,9 @@ class UserCreationEvent
      * Create a new event instance.
      */
     public function __construct(
-        public User $user
+        public Customer $customer
     ) {
-        $user = json_encode($user->toArray());
-        RabbitMQService::make()->publish('user_module', 'user_create', $user);
+        $customer = json_encode($customer->toArray());
+        RabbitMQService::make()->publish('customer_module', 'customer_create', $customer);
     }
 }

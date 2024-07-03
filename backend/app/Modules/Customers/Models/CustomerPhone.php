@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * CustomerPhones
+ * CustomerPhone
  *
  * @property int $id
  * @property int $customer_id
@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $updated_at
  * @property string|null $deleted_at
  */
-class CustomerPhones extends Model
+class CustomerPhone extends Model
 {
     use HasFactory, SoftDeletes;
 

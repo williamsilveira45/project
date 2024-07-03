@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Modules\Users\Data\Requests;
+namespace App\Modules\Customers\Data\Requests;
 
 use App\Modules\Customers\Enum\CustomerPhoneTypeEnum;
 use Spatie\LaravelData\Attributes\Validation\Enum;

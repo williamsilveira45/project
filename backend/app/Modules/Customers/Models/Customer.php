@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $first_name
  * @property string $last_name
  * @property string $email
- * @property string $cpf
+ * @property string $cpf_cnpj
  * @property string $rg
  * @property CustomerStatusEnum $status
  * @property string $birth_date
@@ -40,11 +40,11 @@ class Customer extends Model
 
     public function phones(): HasMany
     {
-        return $this->hasMany(CustomerPhones::class);
+        return $this->hasMany(CustomerPhone::class);
     }
 
     public function notes(): HasMany
     {
-        return $this->hasMany(CustomerNotes::class);
+        return $this->hasMany(CustomerNote::class);
     }
 }

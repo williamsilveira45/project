@@ -1,15 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Modules\Users\Events;
+namespace App\Modules\Customers\Events;
 ;
-use App\Modules\Users\Models\User;
+
+use App\Modules\Customers\Models\CustomerAddress;
 use App\Services\RabbitMQService;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserUpdateEvent
+class CustomerAddressUpdateEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -17,15 +18,15 @@ class UserUpdateEvent
      * Create a new event instance.
      */
     public function __construct(
-        public User $user,
+        public CustomerAddress $customerAddress,
         public array $originalValues,
         public array $changedValues,
     ) {
         $message = json_encode([
-            'user' => $user->toArray(),
+            'address' => $customerAddress->toArray(),
             'original' => $originalValues,
             'changed' => $changedValues
         ]);
-        RabbitMQService::make()->publish('user_module', 'user_update', $message);
+        RabbitMQService::make()->publish('customer_module', 'customer_address_update', $message);
     }
 }

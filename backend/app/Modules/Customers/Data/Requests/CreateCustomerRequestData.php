@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Modules\Users\Data\Requests;
+namespace App\Modules\Customers\Data\Requests;
 
 use App\Modules\Customers\Enum\CustomerStatusEnum;
 use App\Modules\Customers\Rules\ValidCpfCnpjRule;
@@ -10,7 +10,7 @@ use Spatie\LaravelData\Attributes\Validation\Enum;
 use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Data;
 
-class CreateUserRequestData extends Data
+class CreateCustomerRequestData extends Data
 {
     public function __construct(
         #[Max(255)]

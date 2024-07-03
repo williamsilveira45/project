@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * CustomerNotes
+ * CustomerNote
  *
  * @property int $id
  * @property int $customer_id
@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $updated_at
  *
  */
-class CustomerNotes extends Model
+class CustomerNote extends Model
 {
     use HasFactory;
 

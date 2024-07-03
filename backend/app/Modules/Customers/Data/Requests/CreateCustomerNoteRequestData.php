@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Modules\Users\Data\Requests;
+namespace App\Modules\Customers\Data\Requests;
 
 use App\Modules\Customers\Enum\CustomerNoteTypeEnum;
 use App\Modules\Customers\Models\Customer;
@@ -10,7 +10,7 @@ use Spatie\LaravelData\Attributes\Validation\Enum;
 use Spatie\LaravelData\Attributes\Validation\Exists;
 use Spatie\LaravelData\Data;
 
-class CreateUserRequestData extends Data
+class CreateCustomerNoteRequestData extends Data
 {
     public function __construct(
         #[Exists(Customer::class)]
