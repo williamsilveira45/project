@@ -8,11 +8,7 @@ use App\Modules\Users\Repositories\Contracts\UserRepositoryInterface;
 use App\Modules\Users\Repositories\UserRepository;
 use Illuminate\Support\Facades\App;
 
-/**
- * @method static User CreateUserAction(CreateUserRequestData $dataRequest)
- * @method static User LoginAction(LoginRequestData $loginRequest)
- */
-class UserModule extends AbstractModule
+class CustomerModule extends AbstractModule
 {
     public function __construct(
         private readonly UserRepositoryInterface $userRepository
