@@ -6,7 +6,7 @@
         :id="id"
         :readonly="isReadonly"
         :class="['form-control', { 'is-invalid': hasError }]"
-        v-model="internalValue"
+        v-model="model"
         @input="updateValue"
       />
       <div v-if="hasError" class="invalid-feedback">
@@ -19,10 +19,6 @@
     import { computed, ref, watch } from 'vue';
   
     const props = defineProps({
-        modelValue: {
-            type: String,
-            required: true
-        },
         label: {
             type: String,
             default: ''
@@ -30,6 +26,10 @@
         id: {
             type: String,
             required: true
+        },
+        value: {
+            type: String,
+            default: ''
         },
         isPassword: {
             type: Boolean,
@@ -46,20 +46,9 @@
     });
 
     const hasError = computed(() => props.errorMessage !== '');
-  
     const emit = defineEmits(['update:modelValue']);
-  
-    const internalValue = ref(props.modelValue);
+    const model = defineModel({ type: String })
 
-    watch(
-        () => props.modelValue,
-        (newValue) => internalValue.value = newValue
-    );
-
-    // Função para atualizar o valor e emitir o evento de atualização
-    const updateValue = (event) => {
-        emit('update:modelValue', event.target.value);
-    };
 </script>
   
 <style scoped>

@@ -5,7 +5,7 @@ import Dashboard from '@/views/Dashboard.vue';
 import { useUserStore } from '@/stores/user';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://backend.project/api';
+axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL_API;
 axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 axios.defaults.headers.common['Content-Type'] = 'application/json';

@@ -21,3 +21,22 @@ export function useLogin() {
 
     return { login };
 }
+
+export function useLogout() {
+    const userStore = useUserStore();
+
+    const logout = async () => {
+        if (!userStore.user) {
+            return;
+        }
+
+        try {
+            await axios.delete(`/users/${userStore.user.id}/logout`);
+            userStore.setUser(null);
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    return { logout };
+}

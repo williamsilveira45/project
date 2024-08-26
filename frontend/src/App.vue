@@ -18,21 +18,67 @@
               <router-link class="nav-link" to="/dashboard">Dashboard</router-link>
             </li>
           </ul>
-          <button class="btn btn-outline-danger" @click="logout" v-if="isAuthenticated">Logout</button>
+          <button class="btn btn-outline-danger" @click="execLogout" v-show="isAuthenticated">Logout</button>
         </div>
       </div>
     </nav>
     <router-view></router-view>
   </div>
 </template>
-
 <script setup>
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from "./stores/user";
+import { useLogout } from "@/composables/authFunctions";
+import { useToast } from 'vue-toast-notification';
+import { useRouter } from 'vue-router'
+import { computed } from 'vue';
+import Pusher from 'pusher-js';
 
+const router = useRouter();
+const { logout } = useLogout();
+const $toast = useToast();
 const userStore = useUserStore();
-const isAuthenticated = userStore.isAuthenticated;
+const isAuthenticated = computed(() => userStore.isAuthenticated);
 
-const logout = () => {
-  // authStore.logout();
+const wsConfig = {
+  appKey: import.meta.env.VITE_WEBSOCKET_APP_KEY,
+  cluster: import.meta.env.VITE_WEBSOCKET_APP_CLUSTER,
+  wsHost: import.meta.env.VITE_WEBSOCKET_APP_HOST,
+  wsPort: Number(import.meta.env.VITE_WEBSOCKET_APP_PORT),
+  forceTLS: import.meta.env.VITE_WEBSOCKET_FORCE_TLS == 'true',
+  disableStats: import.meta.env.VITE_WEBSOCKET_DISABLE_STATS == 'true',
+  enabledTransports: ['ws', 'wss'],
+};
+
+const websocketClient = new Pusher(wsConfig.appKey, {
+  cluster: wsConfig.cluster,
+  wsHost: wsConfig.wsHost,
+  wsPort: Number(wsConfig.wsPort),
+  forceTLS: Boolean(wsConfig.forceTLS),
+  disableStats: Boolean(wsConfig.disableStats),
+  enabledTransports: ['ws', 'wss'],
+});
+
+websocketClient.connection.bind("error", function (err) {
+  console.log('error', err);
+});
+
+websocketClient.connection.bind("connected", function () {
+  console.log('connected');
+});
+
+const channelSubscription = websocketClient.subscribe('users');
+
+channelSubscription.bind('user.login', (message) => {
+  console.log('message', message);
+});
+
+const execLogout = async () => {
+    try {
+        await logout();
+        router.push({ name: 'Login' });
+    } catch (error) {
+        const errorMessage = error.response?.data?.message ?? error.message ?? 'Erro desconhecido';
+        $toast.error(errorMessage, { duration: 2500, position: 'top-right' });  
+    }
 };
 </script>

@@ -30,9 +30,12 @@ services:
         command: ["/usr/post-build.sh"]
         networks:
             - pr-net
+        ports:
+            - "3000:3000"
         extra_hosts:
-            app.project: 127.0.0.1
-            backend.project: host-gateway
+            frontend.project.com: 127.0.0.1
+            backend.project.com: host-gateway
+            host.docker.internal: host-gateway
 
     rabbitmq:
         image: rabbitmq:3-management
@@ -54,7 +57,7 @@ services:
             context: ./nginx
         volumes:
             - ./backend:/var/www/html/backend
-            - ./frontend:/usr/app/public
+            - ./frontend:/usr/app
         ports:
             - "80:80"
         depends_on:

@@ -12,4 +12,14 @@ export const useUserStore = defineStore('user', () => {
     });
 
     return { user, isAuthenticated, setUser };
+}, {
+    persist: {
+        enabled: true,
+        strategies: [
+            {
+                key: 'user',
+                storage: localStorage, // ou sessionStorage
+            },
+        ],
+    }
 });

@@ -9,7 +9,7 @@ fi
 
 php artisan key:generate
 
-php artisan telescope:install
+php artisan telescope:publish
 
 #if already exists it will be ignored
 php artisan vendor:publish --provider="Spatie\LaravelData\LaravelDataServiceProvider" --tag="data-config"

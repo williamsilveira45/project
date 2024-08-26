@@ -19,7 +19,7 @@
                         v-model="password"
                         :errorMessage="passwordError"
                     />
-                    <button type="submit" class="btn btn-primary float-end">Login</button>
+                    <Button type="submit" variant="primary" float="end" @click="loginAction()">Login</Button>
                 </form>
             </div>
         </div>
@@ -31,7 +31,12 @@ import { ref } from 'vue';
 import axios from "axios";
 import { useLogin } from "@/composables/authFunctions";
 import InputText from "@/components/Forms/InputText.vue";
+import Button from "@/components/Forms/Button.vue";
+import { useToast } from 'vue-toast-notification';
+import { useRouter } from 'vue-router'
 
+const router = useRouter();
+const $toast = useToast();
 const email = ref('');
 const password = ref('');
 const emailError = ref('');
@@ -44,9 +49,17 @@ const loginAction = async () => {
         emailError.value = '';
         passwordError.value = '';
 
-        await axios.get('http://backend.project/sanctum/csrf-cookie');
+        const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
+        await axios.get(`${apiUrl}/sanctum/csrf-cookie`);
         await login(email.value, password.value);
+        $toast.success('Login efetuado com sucesso! redirecionando...', { duration: 2000, position: 'top-right' });
+        setTimeout(() => {
+            router.push({ name: 'Dashboard' })
+        }, 2000);
     } catch (error) {
+        const errorMessage = error.response.data.message ?? error.message ?? 'Erro desconhecido';
+        $toast.error(errorMessage, { duration: 2500, position: 'top-right' });
         if (error.response.status === 422) {
             if (Object.keys(error.response.data.errors).length > 0) {
                 Object.keys(error.response.data.errors).forEach((key) => {
