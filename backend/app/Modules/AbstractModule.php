@@ -29,3 +29,4 @@ abstract class AbstractModule
 
     abstract public static function repository(): mixed;
 }
+

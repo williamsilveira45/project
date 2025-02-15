@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/views/Home.vue';
 import Login from '@/views/Login.vue';
 import Dashboard from '@/views/Dashboard.vue';
+import UserView from '@/Modules/Users/views/View.vue';
 import { useUserStore } from '@/stores/user';
 import axios from 'axios';
 
@@ -30,6 +31,14 @@ const routes = [
             requiresAuth: true,
         },
     },
+    {
+        path: '/users/list',
+        name: 'UsersList',
+        component: UserView,
+        meta: {
+            requiresAuth: true,
+        },
+    }
 ]
 
 const router = createRouter({

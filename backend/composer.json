@@ -13,7 +13,8 @@
         "laravel/tinker": "^2.9",
         "php-amqplib/php-amqplib": "^2.8",
         "pusher/pusher-php-server": "^7.2",
-        "spatie/laravel-data": "^4.6"
+        "spatie/laravel-data": "^4.6",
+        "williamrox45/encrypt-model": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

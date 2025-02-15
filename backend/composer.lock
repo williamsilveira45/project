@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9a5088f3b4560c1b9b8680283daf45e3",
+    "content-hash": "eb6b8380ee798574ccd5e50ce616ab53",
     "packages": [
         {
             "name": "amphp/amp",
@@ -8060,6 +8060,46 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "williamrox45/encrypt-model",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/williamsilveira45/encrypt-model.git",
+                "reference": "9922b565417f6aee6c3682794652e150f50d6e15"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/williamsilveira45/encrypt-model/zipball/9922b565417f6aee6c3682794652e150f50d6e15",
+                "reference": "9922b565417f6aee6c3682794652e150f50d6e15",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^9.00|^10.00|^11.00"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "William\\EncryptModel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "William Silveira",
+                    "email": "williamlimadasilveira@gmail.com"
+                }
+            ],
+            "description": "The idea of this package is very simple; it is to add encryption to the model class attributes in an automated way.",
+            "support": {
+                "issues": "https://github.com/williamsilveira45/encrypt-model/issues",
+                "source": "https://github.com/williamsilveira45/encrypt-model/tree/v1.0.1"
+            },
+            "time": "2024-09-14T02:11:12+00:00"
         },
         {
             "name": "zircote/swagger-php",

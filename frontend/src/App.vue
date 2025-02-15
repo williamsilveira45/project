@@ -22,16 +22,57 @@
         </div>
       </div>
     </nav>
-    <router-view></router-view>
+    <div class="dashboard-layout d-flex" v-if="isAuthenticated">
+      <nav class="sidebar bg-light">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              @click.prevent="toggleSubMenu('users')"
+            >
+              Users
+            </a>
+            <ul v-if="submenus.users" class="nav flex-column ms-3">
+              <li class="nav-item">
+                <router-link to="/users/list" class="nav-link">Lista dos Usuários</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link to="/users/new" class="nav-link">Novo Post</router-link>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+  
+      <div class="main-content flex-grow-1 p-4">
+        <router-view></router-view>
+      </div>
+    </div>
+    <div v-else>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { useUserStore } from "./stores/user";
 import { useLogout } from "@/composables/authFunctions";
 import { useToast } from 'vue-toast-notification';
 import { useRouter } from 'vue-router'
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import Pusher from 'pusher-js';
+
+const submenus = ref({
+  users: false,
+  settings: false,
+})
+  
+const toggleSubMenu = (menu: string) => {
+  submenus.value[menu] = !submenus.value[menu]
+}
 
 const router = useRouter();
 const { logout } = useLogout();
@@ -82,3 +123,18 @@ const execLogout = async () => {
     }
 };
 </script>
+  
+  <style scoped>
+  .dashboard-layout {
+    height: 100vh;
+  }
+  
+  .sidebar {
+    width: 250px;
+  }
+  
+  .main-content {
+    overflow-y: auto;
+  }
+  </style>
+  

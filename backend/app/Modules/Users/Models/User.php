@@ -4,11 +4,14 @@ declare(strict_types=1);
 namespace App\Modules\Users\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Modules\Notifications\Models\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use William\EncryptModel\EncryptModel;
 
 /**
  * User class
@@ -19,13 +22,22 @@ use Illuminate\Support\Facades\Hash;
  * @property string $password
  * @property string|null $email_verified_at
  * @property string|null $remember_token
- * @property string $created_at
- * @property string $updated_at
- * @property string $deleted_at
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes, EncryptModel;
+
+    /**
+     * Attributes that should be encrypted
+     * @var array<int, string>
+     */
+    protected $encryptable = [
+        'name',
+        'email',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -64,5 +76,15 @@ class User extends Authenticatable
     public function setPassword(string $password): void
     {
         $this->password = Hash::make($password);
+    }
+
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notification::class, 'to_user_id');
+    }
+
+    public function notificationsSent(): HasMany
+    {
+        return $this->hasMany(Notification::class, 'from_user_id');
     }
 }

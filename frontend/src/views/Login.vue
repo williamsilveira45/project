@@ -34,7 +34,6 @@ import InputText from "@/components/Forms/InputText.vue";
 import Button from "@/components/Forms/Button.vue";
 import { useToast } from 'vue-toast-notification';
 import { useRouter } from 'vue-router'
-
 const router = useRouter();
 const $toast = useToast();
 const email = ref('');
