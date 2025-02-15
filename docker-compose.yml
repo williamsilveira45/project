@@ -31,7 +31,7 @@ services:
         networks:
             - pr-net
         ports:
-            - "3000:3000"
+            - "5173:5173"
         extra_hosts:
             frontend.project.com: 127.0.0.1
             backend.project.com: host-gateway

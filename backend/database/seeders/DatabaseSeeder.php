@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Modules\Customers\Models\Customer;
+use App\Modules\Notifications\Models\Notification;
 use App\Modules\Users\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,11 +15,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        if (app()->environment('production')) {
+            return;
+        }
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        if (false === User::where('email', env('DEFAULT_USER_EMAIL'))->exists()) {
+            User::factory(1)->create([
+                'name'  => 'Default User',
+                'email'    => env('DEFAULT_USER_EMAIL'),
+                'password' => bcrypt(env('DEFAULT_USER_PASSWORD')),
+            ]);
+        }
+
+        User::factory(10)->create();
+
+        Customer::factory(20)->create();
+
+        Notification::factory(50)->create();
     }
 }

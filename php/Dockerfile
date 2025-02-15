@@ -3,7 +3,11 @@ FROM php:8.3-fpm
 ### SYSTEM ###
 
 # Update + Install dependencies.
+# install nano, ping and ip utilitis
 RUN apt-get -y update && apt-get -y install --no-install-recommends \
+  nano \
+  iputils-ping \
+  iproute2 \
   autoconf \
   bash \
   ca-certificates \

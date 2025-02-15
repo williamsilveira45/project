@@ -33,6 +33,11 @@ class Customer extends Model
         'status' => CustomerStatusEnum::class,
     ];
 
+    protected static function newFactory()
+    {
+        return \Database\Factories\CustomerFactory::new();
+    }
+
     public function addresses(): HasMany
     {
         return $this->hasMany(CustomerAddress::class);

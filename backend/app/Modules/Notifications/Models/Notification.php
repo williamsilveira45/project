@@ -35,6 +35,11 @@ class Notification extends Model
         'is_read' => 'boolean',
     ];
 
+    protected static function newFactory()
+    {
+        return \Database\Factories\NotificationFactory::new();
+    }
+
     public function fromUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'from_user_id');

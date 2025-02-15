@@ -73,6 +73,11 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function newFactory()
+    {
+        return \Database\Factories\UserFactory::new();
+    }
+
     public function setPassword(string $password): void
     {
         $this->password = Hash::make($password);

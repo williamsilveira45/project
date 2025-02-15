@@ -28,7 +28,7 @@ class UserRepository implements UserRepositoryInterface
             ->paginate($data->perPage, ['*'], 'page', $data->page);
     }
 
-    public function getUserNotifications(User $user):
+    public function getUserNotifications(User $user): array
     {
         return $user->notifications->toArray();
     }

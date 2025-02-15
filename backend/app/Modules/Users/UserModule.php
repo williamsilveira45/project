@@ -14,11 +14,6 @@ use Illuminate\Support\Facades\App;
  */
 class UserModule extends AbstractModule
 {
-    public function __construct(
-        private readonly UserRepositoryInterface $userRepository
-    ) {
-    }
-
     /**
      * @return UserRepository
      */
