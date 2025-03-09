@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Modules\Notifications\Events;
 
+use App\Modules\Core\Actions\Data\DTOs\AMQP\SendMessageAMQPDTO;
+use App\Modules\Core\CoreModule;
 use App\Modules\Notifications\Models\Notification;
-use App\Services\RabbitMQService;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -27,7 +28,14 @@ class NotificationUpdateEvent implements ShouldBroadcastNow
             'original' => $originalValues,
             'changed' => $changedValues
         ]);
-        RabbitMQService::make()->publish('notification_module', 'notification_update', $message);
+
+        $message = SendMessageAMQPDTO::from([
+            'exchange' => 'notification_module',
+            'queue' => 'notification_update',
+            'message' => $message
+        ]);
+
+        CoreModule::sendMessageAMQPAction($message);
     }
 
     /**

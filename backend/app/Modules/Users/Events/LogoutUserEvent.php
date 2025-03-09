@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Modules\Users\Events;
 
+use App\Modules\Core\Actions\Data\DTOs\AMQP\SendMessageAMQPDTO;
+use App\Modules\Core\CoreModule;
 use App\Modules\Users\Models\User;
-use App\Services\RabbitMQService;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -21,7 +22,14 @@ class LogoutUserEvent implements ShouldBroadcastNow
         public User $user
     ) {
         $user = json_encode($user->toArray());
-        RabbitMQService::make()->publish('user_module', 'user_logout', $user);
+
+        $message = SendMessageAMQPDTO::from([
+            'exchange' => 'user_module',
+            'queue' => 'user_logout',
+            'message' => $user
+        ]);
+
+        CoreModule::sendMessageAMQPAction($message);
     }
 
     public function broadcastOn(): array

@@ -4,8 +4,9 @@ declare(strict_types=1);
 namespace App\Modules\Customers\Events;
 ;
 
+use App\Modules\Core\Actions\Data\DTOs\AMQP\SendMessageAMQPDTO;
+use App\Modules\Core\CoreModule;
 use App\Modules\Customers\Models\CustomerAddress;
-use App\Services\RabbitMQService;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -27,6 +28,13 @@ class CustomerAddressUpdateEvent
             'original' => $originalValues,
             'changed' => $changedValues
         ]);
-        RabbitMQService::make()->publish('customer_module', 'customer_address_update', $message);
+
+        $message = SendMessageAMQPDTO::from([
+            'exchange' => 'customer_module',
+            'queue' => 'customer_address_update',
+            'message' => $message
+        ]);
+
+        CoreModule::sendMessageAMQPAction($message);
     }
 }

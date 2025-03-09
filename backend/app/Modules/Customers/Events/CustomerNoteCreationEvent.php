@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Modules\Customers\Events;
 
+use App\Modules\Core\Actions\Data\DTOs\AMQP\SendMessageAMQPDTO;
+use App\Modules\Core\CoreModule;
 use App\Modules\Customers\Models\CustomerNote;
-use App\Services\RabbitMQService;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -20,6 +21,13 @@ class CustomerNoteCreationEvent
         public CustomerNote $customerNote
     ) {
         $customerNote = json_encode($customerNote->toArray());
-        RabbitMQService::make()->publish('customer_module', 'customer_note_create', $customerNote);
+
+        $message = SendMessageAMQPDTO::from([
+            'exchange' => 'customer_module',
+            'queue' => 'customer_note_create',
+            'message' => $customerNote
+        ]);
+
+        CoreModule::sendMessageAMQPAction($message);
     }
 }

@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Modules\Customers\Events;
 
+use App\Modules\Core\Actions\Data\DTOs\AMQP\SendMessageAMQPDTO;
+use App\Modules\Core\CoreModule;
 use App\Modules\Customers\Models\CustomerAddress;
-use App\Services\RabbitMQService;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -17,9 +18,16 @@ class CustomerAddressCreationEvent
      * Create a new event instance.
      */
     public function __construct(
-        public CustomerAddress $customerAddress
+        public CustomerAddress $customerAddress,
     ) {
         $customerAddress = json_encode($customerAddress->toArray());
-        RabbitMQService::make()->publish('customer_module', 'customer_address_create', $customerAddress);
+
+        $message = SendMessageAMQPDTO::from([
+            'exchange' => 'customer_module',
+            'queue' => 'customer_address_create',
+            'message' => $customerAddress
+        ]);
+
+        CoreModule::sendMessageAQMPAction($message);
     }
 }

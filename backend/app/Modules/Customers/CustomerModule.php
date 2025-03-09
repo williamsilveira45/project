@@ -1,25 +1,25 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Modules\Users;
+namespace App\Modules\Customers;
 
 use App\Modules\AbstractModule;
-use App\Modules\Users\Repositories\Contracts\UserRepositoryInterface;
-use App\Modules\Users\Repositories\UserRepository;
+use App\Modules\Customers\Repositories\Contracts\CustomerRepositoryInterface;
+use App\Modules\Customers\Repositories\CustomerRepository;
 use Illuminate\Support\Facades\App;
 
 class CustomerModule extends AbstractModule
 {
     public function __construct(
-        private readonly UserRepositoryInterface $userRepository
+        private readonly CustomerRepositoryInterface $repository
     ) {
     }
 
     /**
-     * @return UserRepository
+     * @return CustomerRepository
      */
-    public static function repository(): UserRepository
+    public static function repository(): CustomerRepository
     {
-        return App::make(UserRepositoryInterface::class);
+        return App::make(CustomerRepositoryInterface::class);
     }
 }

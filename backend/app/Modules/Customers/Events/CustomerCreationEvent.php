@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Modules\Customers\Events;
 
+use App\Modules\Core\Actions\Data\DTOs\AMQP\SendMessageAMQPDTO;
+use App\Modules\Core\CoreModule;
 use App\Modules\Customers\Models\Customer;
-use App\Services\RabbitMQService;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -20,6 +21,13 @@ class CustomerCreationEvent
         public Customer $customer
     ) {
         $customer = json_encode($customer->toArray());
-        RabbitMQService::make()->publish('customer_module', 'customer_create', $customer);
+
+        $message = SendMessageAMQPDTO::from([
+            'exchange' => 'customer_module',
+            'queue' => 'customer_create',
+            'message' => $customer
+        ]);
+
+        CoreModule::sendMessageAMQPAction($message);
     }
 }

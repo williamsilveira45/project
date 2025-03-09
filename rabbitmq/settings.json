@@ -1,0 +1,266 @@
+{
+    "users": [
+      {
+        "name": "guest",
+        "password_hash": "8d6e35d70d993fa9f1ce074b3d8b9e75",
+        "tags": "administrator"
+      }
+    ],
+    "vhosts": [
+      {
+        "name": "/"
+      }
+    ],
+    "permissions": [
+      {
+        "user": "guest",
+        "vhost": "/",
+        "configure": ".*",
+        "write": ".*",
+        "read": ".*"
+      }
+    ],
+    "exchanges": [
+      {
+        "name": "user_module",
+        "vhost": "/",
+        "type": "topic",
+        "durable": true,
+        "auto_delete": false,
+        "internal": false,
+        "arguments": {}
+      },
+      {
+        "name": "customer_module",
+        "vhost": "/",
+        "type": "topic",
+        "durable": true,
+        "auto_delete": false,
+        "internal": false,
+        "arguments": {}
+      },
+      {
+        "name": "notification_module",
+        "vhost": "/",
+        "type": "topic",
+        "durable": true,
+        "auto_delete": false,
+        "internal": false,
+        "arguments": {}
+      }
+    ],
+    "queues": [
+      {
+        "name": "user_login",
+        "vhost": "/",
+        "durable": true,
+        "auto_delete": false,
+        "arguments": {}
+      },
+      {
+        "name": "user_logout",
+        "vhost": "/",
+        "durable": true,
+        "auto_delete": false,
+        "arguments": {}
+      },
+      {
+        "name": "user_create",
+        "vhost": "/",
+        "durable": true,
+        "auto_delete": false,
+        "arguments": {}
+      },
+      {
+        "name": "user_update",
+        "vhost": "/",
+        "durable": true,
+        "auto_delete": false,
+        "arguments": {}
+      },
+      {
+        "name": "customer_address_create",
+        "vhost": "/",
+        "durable": true,
+        "auto_delete": false,
+        "arguments": {}
+      },
+      {
+        "name": "customer_address_update",
+        "vhost": "/",
+        "durable": true,
+        "auto_delete": false,
+        "arguments": {}
+      },
+      {
+        "name": "customer_create",
+        "vhost": "/",
+        "durable": true,
+        "auto_delete": false,
+        "arguments": {}
+      },
+      {
+        "name": "customer_update",
+        "vhost": "/",
+        "durable": true,
+        "auto_delete": false,
+        "arguments": {}
+      },
+      {
+        "name": "customer_note_create",
+        "vhost": "/",
+        "durable": true,
+        "auto_delete": false,
+        "arguments": {}
+      },
+      {
+        "name": "customer_note_update",
+        "vhost": "/",
+        "durable": true,
+        "auto_delete": false,
+        "arguments": {}
+      },
+      {
+        "name": "customer_phone_create",
+        "vhost": "/",
+        "durable": true,
+        "auto_delete": false,
+        "arguments": {}
+      },
+      {
+        "name": "customer_phone_update",
+        "vhost": "/",
+        "durable": true,
+        "auto_delete": false,
+        "arguments": {}
+      },
+      {
+        "name": "notification_create",
+        "vhost": "/",
+        "durable": true,
+        "auto_delete": false,
+        "arguments": {}
+      },
+      {
+        "name": "notification_update",
+        "vhost": "/",
+        "durable": true,
+        "auto_delete": false,
+        "arguments": {}
+      },
+    ],
+    "bindings": [
+      {
+        "source": "user_module",
+        "vhost": "/",
+        "destination": "user_login",
+        "destination_type": "queue",
+        "routing_key": "user_login",
+        "arguments": {}
+      },
+      {
+        "source": "user_module",
+        "vhost": "/",
+        "destination": "user_logout",
+        "destination_type": "queue",
+        "routing_key": "user_logout",
+        "arguments": {}
+      },
+      {
+        "source": "user_module",
+        "vhost": "/",
+        "destination": "user_create",
+        "destination_type": "queue",
+        "routing_key": "user_create",
+        "arguments": {}
+      },
+      {
+        "source": "user_module",
+        "vhost": "/",
+        "destination": "user_update",
+        "destination_type": "queue",
+        "routing_key": "user_update",
+        "arguments": {}
+      },
+      {
+        "source": "customer_module",
+        "vhost": "/",
+        "destination": "customer_address_create",
+        "destination_type": "queue",
+        "routing_key": "customer_address_create",
+        "arguments": {}
+      },
+      {
+        "source": "customer_module",
+        "vhost": "/",
+        "destination": "customer_address_update",
+        "destination_type": "queue",
+        "routing_key": "customer_address_update",
+        "arguments": {}
+      },
+      {
+        "source": "customer_module",
+        "vhost": "/",
+        "destination": "customer_create",
+        "destination_type": "queue",
+        "routing_key": "customer_create",
+        "arguments": {}
+      },
+      {
+        "source": "customer_module",
+        "vhost": "/",
+        "destination": "customer_note_create",
+        "destination_type": "queue",
+        "routing_key": "customer_note_create",
+        "arguments": {}
+      },
+      {
+        "source": "customer_module",
+        "vhost": "/",
+        "destination": "customer_note_update",
+        "destination_type": "queue",
+        "routing_key": "customer_note_update",
+        "arguments": {}
+      },
+      {
+        "source": "customer_module",
+        "vhost": "/",
+        "destination": "customer_phone_create",
+        "destination_type": "queue",
+        "routing_key": "customer_phone_create",
+        "arguments": {}
+      },
+      {
+        "source": "customer_module",
+        "vhost": "/",
+        "destination": "customer_phone_update",
+        "destination_type": "queue",
+        "routing_key": "customer_phone_update",
+        "arguments": {}
+      },
+      {
+        "source": "customer_module",
+        "vhost": "/",
+        "destination": "customer_update",
+        "destination_type": "queue",
+        "routing_key": "customer_update",
+        "arguments": {}
+      },
+      {
+        "source": "notification_module",
+        "vhost": "/",
+        "destination": "notification_update",
+        "destination_type": "queue",
+        "routing_key": "notification_update",
+        "arguments": {}
+      },
+      {
+        "source": "notification_module",
+        "vhost": "/",
+        "destination": "notification_create",
+        "destination_type": "queue",
+        "routing_key": "notification_create",
+        "arguments": {}
+      }
+    ]
+  }

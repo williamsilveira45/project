@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Services;
+namespace App\Modules\Core\Services\AMQP;
 
-use InvalidArgumentException;
+use App\Modules\Core\Contracts\AMQP\AMQPServiceInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class RabbitMQService
+class RabbitMQService implements AMQPServiceInterface
 {
-    private AMQPChannel $channel;
+    private ?AMQPChannel $channel = null;
 
     public function __construct(
         public AMQPStreamConnection $connection,
@@ -42,6 +42,8 @@ class RabbitMQService
     public function __destruct()
     {
         $this->connection->close();
-        $this->channel->close();
+        if ($this->channel !== null) {
+            $this->channel->close();
+        }
     }
 }

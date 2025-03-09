@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Modules\Users\Http\Controllers;
+namespace App\Modules\Customers\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Customers\Actions\CreateCustomerAction;

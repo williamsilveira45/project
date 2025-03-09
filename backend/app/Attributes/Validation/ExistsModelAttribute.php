@@ -7,7 +7,7 @@ use Attribute;
 use Spatie\LaravelData\Attributes\Validation\Exists;
 
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
-class ExistsModel extends Exists
+class ExistsModelAttribute extends Exists
 {
     public function __construct(string $modelClass)
     {

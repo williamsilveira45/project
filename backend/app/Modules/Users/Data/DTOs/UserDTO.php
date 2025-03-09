@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Modules\Users\Data\DTOs;
 
 use App\Modules\Users\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Data;
 
@@ -33,11 +32,6 @@ class UserDTO extends Data
             created_at: $user->created_at,
             updated_at: $user->updated_at
         );
-    }
-
-    public static function authorize(): bool
-    {
-        return Auth::user()->name === 'Ruben';
     }
 }
 

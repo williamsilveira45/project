@@ -3,12 +3,16 @@ declare(strict_types=1);
 
 namespace App\Modules\Notifications\Events;
 
+use App\Modules\Core\Actions\Data\DTOs\AMQP\SendMessageAMQPDTO;
+use App\Modules\Core\Actions\AMQP\SendMessageAMQPAction;
+use App\Modules\Core\CoreModule;
 use App\Modules\Notifications\Models\Notification;
 use App\Services\RabbitMQService;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\App;
 
 class NotificationCreationEvent implements ShouldBroadcastNow
 {
@@ -21,7 +25,14 @@ class NotificationCreationEvent implements ShouldBroadcastNow
         public Notification $notification
     ) {
         $notification = json_encode($notification->toArray());
-        RabbitMQService::make()->publish('notification_module', 'notification_create', $notification);
+
+        $message = SendMessageAMQPDTO::from([
+            'exchange' => 'notification_module',
+            'queue' => 'notification_create',
+            'message' => $notification
+        ]);
+
+        CoreModule::sendMessageAMQPAction($message);
     }
 
     /**

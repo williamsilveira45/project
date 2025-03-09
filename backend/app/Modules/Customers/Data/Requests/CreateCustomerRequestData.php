@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Customers\Data\Requests;
 
+use App\Attributes\Validation\ValidCpfCnpjRuleAttribute;
 use App\Modules\Customers\Enum\CustomerStatusEnum;
-use App\Modules\Customers\Rules\ValidCpfCnpjRule;
 use Spatie\LaravelData\Attributes\Validation\Email;
 use Spatie\LaravelData\Attributes\Validation\Enum;
 use Spatie\LaravelData\Attributes\Validation\Max;
@@ -19,7 +19,7 @@ class CreateCustomerRequestData extends Data
         public string $last_name,
         #[Email]
         public ?string $email,
-        #[ValidCpfCnpjRule]
+        #[ValidCpfCnpjRuleAttribute]
         public ?string $cpf_cnpj,
         public ?string $rg,
         #[Enum(CustomerStatusEnum::class)]

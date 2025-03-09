@@ -16,12 +16,14 @@ const checked = ref(false);
 const emailError = ref('');
 const passwordError = ref('');
 const generalError = ref('');
+const loading = ref(false);
 
 const loginAction = async () => {
     try {
         emailError.value = '';
         passwordError.value = '';
         generalError.value = '';
+        loading.value = true;
 
         await axios.get('/sanctum/csrf-cookie');
         const user = await axios.post('/api/users/login', {
@@ -37,6 +39,7 @@ const loginAction = async () => {
             router.push({ name: 'dashboard' });
         }, 2000);
     } catch (error) {
+        loading.value = false;
         generalError.value = error.response?.data?.message ?? error.message ?? 'Erro desconhecido';
         if (error.response.status === 422) {
             if (Object.keys(error.response.data.errors).length > 0) {
@@ -106,7 +109,7 @@ const loginAction = async () => {
                             </div>
                             <span class="font-medium no-underline ml-2 text-right cursor-pointer text-primary">Forgot password?</span>
                         </div>
-                        <Button label="Sign In" class="w-full" @click="loginAction"></Button>
+                        <Button :label="loading ? 'Loading...' : 'Sign In'" class="w-full" :disabled="loading" @click="loginAction"></Button>
                     </div>
                 </div>
             </div>

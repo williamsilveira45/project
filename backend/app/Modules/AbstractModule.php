@@ -16,15 +16,32 @@ abstract class AbstractModule
 
         $directoryFromCalledClass = dirname($reflection->getFileName());
 
-        $actions = collect(glob($directoryFromCalledClass . '/Actions/*.php'))->map(function ($file) {
-            return lcfirst(str_replace('.php', '', basename($file)));
-        })->toArray();
+        $files = collect([
+            glob($directoryFromCalledClass . '/Actions/*.php'),
+            glob($directoryFromCalledClass . '/Actions/*/*.php')
+        ])->flatten();
 
-        if (!in_array($name, $actions)) {
+        //remove from array the internal actions
+        $files = $files->filter(function ($file) {
+            //@todo improve this logic
+            return !str_contains($file, 'Internal');
+        });
+
+        $action = $files->map(function ($file) {
+            //search for word 'Actions' and get the string after it
+            $file = substr($file, strpos($file, 'Actions') + 8);
+            return str_replace('.php', '', $file);
+        })->filter(function ($file) use ($name) {
+            return str_contains(strtolower($file), strtolower($name));
+        })->first();
+
+        if (empty($action)) {
             throw new Exception('Action not found');
         }
 
-        return App::make($reflection->getNamespaceName() . '\\Actions\\' . ucfirst($name))->execute(...$arguments);
+        $action = str_replace('/', '\\', $action);
+
+        return App::make($reflection->getNamespaceName() . '\\Actions\\' . $action)->execute(...$arguments);
     }
 
     abstract public static function repository(): mixed;
