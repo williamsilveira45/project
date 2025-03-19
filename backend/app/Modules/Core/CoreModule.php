@@ -14,4 +14,9 @@ class CoreModule extends AbstractModule
     {
         return null;
     }
+
+    public static function getPermissions(): array
+    {
+        return [];
+    }
 }

@@ -21,9 +21,9 @@ enum CustomerAddressTypeEnum: string
     public static function getLabels(): array
     {
         return [
-            self::HOME->value => __('Casa'),
-            self::WORK->value => __('Trabalho'),
-            self::OTHER->value => __('Outro'),
+            self::HOME->value => __('Home'),
+            self::WORK->value => __('Work'),
+            self::OTHER->value => __('Other'),
         ];
     }
 }

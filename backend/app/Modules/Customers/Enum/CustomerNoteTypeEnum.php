@@ -20,8 +20,8 @@ enum CustomerNoteTypeEnum: string
     public static function getLabels(): array
     {
         return [
-            self::GENERAL->value => __('Geral'),
-            self::INTERNAL->value => __('Interno'),
+            self::GENERAL->value => __('General'),
+            self::INTERNAL->value => __('Internal'),
         ];
     }
 }

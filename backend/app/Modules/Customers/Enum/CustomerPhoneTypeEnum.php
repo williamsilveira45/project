@@ -21,8 +21,8 @@ enum CustomerPhoneTypeEnum: string
     public static function getLabels(): array
     {
         return [
-            self::PHONE->value => __('Telefone'),
-            self::CELLPHONE->value => __('Celular'),
+            self::PHONE->value => __('Phone'),
+            self::CELLPHONE->value => __('Cellphone'),
             self::FAX->value => __('Fax'),
         ];
     }

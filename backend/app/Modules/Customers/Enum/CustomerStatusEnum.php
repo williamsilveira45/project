@@ -19,8 +19,8 @@ enum CustomerStatusEnum: string
     public static function getLabels(): array
     {
         return [
-            self::ACTIVE->value => __('Ativo'),
-            self::INACTIVE->value => __('Inativo'),
+            self::ACTIVE->value => __('Active'),
+            self::INACTIVE->value => __('Inactive'),
         ];
     }
 }

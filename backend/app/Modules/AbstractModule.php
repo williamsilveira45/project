@@ -45,5 +45,7 @@ abstract class AbstractModule
     }
 
     abstract public static function repository(): mixed;
+
+    abstract public static function getPermissions(): array;
 }
 

@@ -7,6 +7,9 @@ use App\Modules\Notifications\Models\Notification;
 use App\Modules\Users\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\App;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,5 +35,31 @@ class DatabaseSeeder extends Seeder
         Customer::factory(20)->create();
 
         Notification::factory(50)->create();
+
+        //@todo maybe transfer it to a config file
+        $roles = [
+            'admin',
+            'manager',
+            'user',
+            'guest',
+        ];
+
+        foreach ($roles as $role) {
+            Role::create([
+                'name' => $role,
+                'guard' => 'web',
+            ]);
+        }
+
+        foreach (App::getModules() as $name => $module) {
+            foreach (App::make($module)->getPermissions() as $permission) {
+                Permission::create([
+                    'name' => $permission->value . ' ' . strtolower($name),
+                    'guard_name' => 'web',
+                ]);
+            }
+        }
+
+        //@todo continue with roles and permissions and assign them to users
     }
 }

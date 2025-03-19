@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Modules\Users;
 
 use App\Modules\AbstractModule;
+use App\Modules\Users\Enum\UserPermissionEnum;
 use App\Modules\Users\Repositories\Contracts\UserRepositoryInterface;
 use App\Modules\Users\Repositories\UserRepository;
 use Illuminate\Support\Facades\App;
@@ -20,5 +21,10 @@ class UserModule extends AbstractModule
     public static function repository(): UserRepository
     {
         return App::make(UserRepositoryInterface::class);
+    }
+
+    public static function getPermissions(): array
+    {
+        return UserPermissionEnum::getValues();
     }
 }
