@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
         foreach ($roles as $role) {
             Role::create([
                 'name' => $role,
-                'guard' => 'web',
+                'guard_name' => 'web',
             ]);
         }
 
@@ -61,5 +61,9 @@ class DatabaseSeeder extends Seeder
         }
 
         //@todo continue with roles and permissions and assign them to users
+        Role::where('name', 'admin')->first()->givePermissionTo(Permission::all());
+
+        //assign default user to admin role
+        User::where('email', env('DEFAULT_USER_EMAIL'))->first()->assignRole('admin');
     }
 }

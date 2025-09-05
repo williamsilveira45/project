@@ -76,8 +76,10 @@ services:
             - MYSQL_USER=project
             - MYSQL_PASSWORD=project
             - MYSQL_ROOT_PASSWORD=project
+        ports:
+            - "3306:3306"
         volumes:
-            - dbdata:/var/lib/mysql
+            - ./mysql-data:/var/lib/mysql
         networks:
             - pr-net
 

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Traits\HasRoles;
 use William\EncryptModel\EncryptModel;
 
 /**
@@ -28,7 +29,7 @@ use William\EncryptModel\EncryptModel;
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes, EncryptModel;
+    use HasFactory, Notifiable, SoftDeletes, EncryptModel, HasRoles;
 
     /**
      * Attributes that should be encrypted
